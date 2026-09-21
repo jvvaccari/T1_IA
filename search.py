@@ -158,13 +158,13 @@ def depthFirstSearch(problem):
     "*** YOUR CODE HERE ***"
 
     
-    return searchPolicy(problem, "DFS")
+    return searchByPolicy(problem, "DFS")
 
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
     "*** YOUR CODE HERE ***"
-    return searchPolicy(problem, "BFS")
+    return searchByPolicy(problem, "BFS")
 
 def nullHeuristic(state, problem=None):
     """
@@ -176,7 +176,7 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
     "*** YOUR CODE HERE ***"
-    return searchPolicy(problem, "A*")
+    return searchByPolicy(problem, "A*")
 
 # Abbreviations
 bfs = breadthFirstSearch
