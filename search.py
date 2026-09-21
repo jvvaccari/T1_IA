@@ -99,7 +99,7 @@ def tinyMazeSearch(problem):
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
 
-def searchPolicy(problem, queueingPolicy):
+def searchByPolicy(problem, queueingPolicy):
 
     if queueingPolicy == "DFS":
         frontier = util.Stack()
