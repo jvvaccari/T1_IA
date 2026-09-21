@@ -178,7 +178,6 @@ def aStarSearch(problem, heuristic=nullHeuristic):
     "*** YOUR CODE HERE ***"
     return searchPolicy(problem, "A*")
 
-
 # Abbreviations
 bfs = breadthFirstSearch
 dfs = depthFirstSearch
