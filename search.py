@@ -16,7 +16,7 @@
 In search.py, you will implement generic search algorithms which are called by
 Pacman agents (in searchAgents.py).
 """
-
+import searchAgents
 import util
 
 class SearchProblem:
@@ -99,18 +99,18 @@ def tinyMazeSearch(problem):
     w = Directions.WEST
     return  [s, s, w, s, w, w, s, w]
 
-def searchByPolicy(problem, queueingPolicy):
+def searchByPolicy(problem, queueingPolicy, heuristic=None):
 
     if queueingPolicy == "DFS":
         frontier = util.Stack()
     elif queueingPolicy == "BFS":
         frontier = util.Queue()
-    elif queueingPolicy == "UCS": 
+    elif queueingPolicy == "A*": 
         frontier = util.PriorityQueue()
 
     start = problem.getStartState()
 
-    if queueingPolicy == "UCS":
+    if queueingPolicy == "A*":
         frontier.push((start, [], 0), 0) 
     else:
         frontier.push((start, [], 0))
@@ -132,10 +132,11 @@ def searchByPolicy(problem, queueingPolicy):
             if nextState not in expanded:
                 
                 new_actions = actions + [action]
-                new_cost = current_cost + stepCost 
+                new_cost = current_cost + stepCost
                 
-                if queueingPolicy == "UCS":
-                    frontier.push((nextState, new_actions, new_cost), new_cost)
+                if queueingPolicy == "A*":
+                    priority = new_cost + heuristic(nextState, problem)
+                    frontier.push((nextState, new_actions, new_cost), priority)
                 else:
                     frontier.push((nextState, new_actions, new_cost))
 
@@ -155,15 +156,11 @@ def depthFirstSearch(problem):
     print("Start:", problem.getStartState())
     print("Is the start a goal?", problem.isGoalState(problem.getStartState()))
     """
-    "*** YOUR CODE HERE ***"
-
-    
     return searchByPolicy(problem, "DFS")
 
 
 def breadthFirstSearch(problem):
     """Search the shallowest nodes in the search tree first."""
-    "*** YOUR CODE HERE ***"
     return searchByPolicy(problem, "BFS")
 
 def nullHeuristic(state, problem=None):
@@ -175,8 +172,7 @@ def nullHeuristic(state, problem=None):
 
 def aStarSearch(problem, heuristic=nullHeuristic):
     """Search the node that has the lowest combined cost and heuristic first."""
-    "*** YOUR CODE HERE ***"
-    return searchByPolicy(problem, "A*")
+    return searchByPolicy(problem, "A*", heuristic)
 
 # Abbreviations
 bfs = breadthFirstSearch
