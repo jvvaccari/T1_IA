@@ -14,7 +14,7 @@
 
 # imports from python standard library
 import grading
-import imp
+import importlib.util
 import optparse
 import os
 import re
@@ -133,8 +133,13 @@ def loadModuleString(moduleSource):
 import py_compile
 
 def loadModuleFile(moduleName, filePath):
-    with open(filePath, 'r') as f:
-        return imp.load_module(moduleName, f, "%s.py" % moduleName, (".py", "r", imp.PY_SOURCE))
+    spec = importlib.util.spec_from_file_location(moduleName, filePath)
+    if spec is None or spec.loader is None:
+        raise ImportError("Não foi possível carregar o módulo: %s" % filePath)
+
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def readFile(path, root=""):
